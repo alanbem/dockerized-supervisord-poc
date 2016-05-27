@@ -1,0 +1,25 @@
+version: '2'
+services:
+
+  data:
+    image: busybox:latest
+    volumes:
+      - .:/var/project
+
+  php:
+    image: php:7-alpine
+    command: php -v
+    working_dir: /var/project
+    volumes_from:
+      - data
+
+  supervisord:
+    build:
+      context: .
+      dockerfile: docker/supervisord/Dockerfile
+    privileged: true
+    volumes_from:
+      - data
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./supervisord.conf:/etc/supervisord.conf
