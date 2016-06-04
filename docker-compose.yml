@@ -18,6 +18,8 @@ services:
       context: .
       dockerfile: docker/supervisord/Dockerfile
     privileged: true
+    depends_on:
+      - php
     volumes_from:
       - data
     volumes:
